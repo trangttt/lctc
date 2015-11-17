@@ -1,0 +1,19 @@
+---
+- name: Build Docker images from Dockerfiles.
+  docker_image:
+    name : "{{ item.name }}"
+    tag : "{{ item.tag }}"
+    path : "/vagrant/provisioning/{{ item.path }}"
+    state: build
+  with_items:
+    - { name: host1, tag: "lct1", path : host1 }
+  sudo : yes
+
+- name: Run a container
+  docker:
+    image: host1:lct1
+    name: host1
+    state: running
+    #command: /script.sh 
+    ports: "33:22" 
+      

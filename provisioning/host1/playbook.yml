@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  vars:
+    ssh_users:
+      - name: vagrant
+        key: "{{ lookup('file', 'vagrant.pub') }}"
+
+  tasks:
+    - name: installing SSH
+      apt:
+          name=openssh-server
+          state=present
+
+    - name : Creating vagrant user to ssh
+      user:
+          name=vagrant
+
+    - name: Add ssh user keys
+      authorized_key: user={{ item.name }} key="{{ item.key }}"
+      with_items: ssh_users
+
+

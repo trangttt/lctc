@@ -1,0 +1,20 @@
+---
+- hosts: all
+  pre_tasks:
+    - name: Update apt cache if needed
+      apt: update_cache=yes cache_valid_time=3600
+      sudo: yes
+
+  roles:
+    - role: angstwad.docker_ubuntu
+      sudo: yes
+
+  tasks:
+    - name: Echo success
+      ping: 
+
+    - include: setup.yml
+    - include: docker.yml
+
+
+    
